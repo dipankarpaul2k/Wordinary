@@ -1,0 +1,21 @@
+.navlink {
+  padding: 5px 10px;
+  border-radius: var(--mantine-radius-xs);
+  text-decoration: none;
+
+  @mixin light {
+    color: var(--mantine-color-grey-7);
+  }
+
+  @mixin dark {
+    color: var(--mantine-color-grey-1);
+  }
+
+  &:hover {
+    background-color: var(--mantine-color-myColors-7);
+  }
+}
+
+.active {
+  background-color: var(--mantine-color-myColors-7);
+}

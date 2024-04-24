@@ -1,0 +1,24 @@
+.home_container {
+  width: 100%;
+  min-height: calc(70vh - 56px);
+}
+
+.img {
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+  max-height: 300px;
+}
+
+.form_container {
+  max-width: 400px;
+}
+
+.home_input input:focus {
+  border-color: var(--mantine-color-myColors-7) !important;
+  outline-color: none !important;
+}
+
+.home_submit_btn {
+  background-color: var(--mantine-color-myColors-7) !important;
+}

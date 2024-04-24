@@ -1,0 +1,8 @@
+.definition_actionIcon{
+    @mixin light{
+        color: var(--mantine-color-dark-6);
+    }
+    @mixin dark{
+        color: var(--mantine-color-dark-1);
+    }
+}
