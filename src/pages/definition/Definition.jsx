@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 // import ui
-import { ActionIcon, Box, Card, Group, Text } from "@mantine/core";
+import { ActionIcon, Box, Card, Group, Text, Tooltip } from "@mantine/core";
 // import icons
 import { ArrowLeft, BookmarkSimple, Play } from "@phosphor-icons/react";
 // import locals
@@ -26,6 +26,7 @@ function Definition() {
     setDefiniions,
     addBookmark,
     removeBookmark,
+    addToHistory,
   } = useStore();
 
   const { searchWord } = useParams();
@@ -38,40 +39,52 @@ function Definition() {
     searchWord.toLowerCase()
   );
 
-  // fetch definition from api
+  // update the states
+  const updateState = (data) => {
+    setDefiniions(data);
+    if (!data[0].phonetics.length) return;
+    const audioUrl = data[0].phonetics[0].audio.replace("//ssl", "https://ssl");
+    setAudio(new Audio(audioUrl));
+    addToHistory(searchWord);
+  };
+
+  // fetch definition from API
   useEffect(() => {
-    setLoading(true);
-    // console.log("loading 1: ", loading);
-    axios
-      .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`)
-      .then((response) => {
-        // console.log("Response: ", response.data);
-        setDefiniions(response.data);
-        if (!response.data[0].phonetics.length) return;
-        const audioUrl = response.data[0].phonetics[0].audio.replace(
-          "//ssl",
-          "https://ssl"
-        );
-        setAudio(new Audio(audioUrl));
-      })
-      .catch((error) => {
-        if (error.response) {
-          // if response is not ok
-          // console.log("Response error: ", error);
-          setError({
-            status: error.response.status,
-            ...error.response.data,
-          });
-        } else {
-          // Handle other errors
-          // console.log("Other error: ", error);
-          setError({ message: error.message });
-        }
-      })
-      .finally(() => {
-        // console.log("Fetch completed.");
-        setLoading(false);
-      });
+    const fetchDefinitions = async () => {
+      setLoading(true);
+      console.log("loading 1: ", loading);
+      axios
+        .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`)
+        .then((response) => {
+          // console.log("Response: ", response.data);
+          updateState(response.data);
+          setLoading(false);
+          console.log("loading 2: ", loading);
+        })
+        .catch((error) => {
+          if (error.response) {
+            // if response is not ok
+            // console.log("Response error: ", error);
+            setError({
+              status: error.response.status,
+              ...error.response.data,
+            });
+          } else {
+            // Handle other errors
+            // console.log("Other error: ", error);
+            setError({ message: error.message });
+          }
+          setLoading(false);
+          console.log("loading 2: ", loading);
+        });
+    };
+
+    if (!isBookmarked) {
+      fetchDefinitions();
+    } else {
+      const lowerCasedWord = searchWord.toLowerCase();
+      updateState(bookmarks[lowerCasedWord].definitions);
+    }
   }, []);
 
   if (loading) {
@@ -90,30 +103,38 @@ function Definition() {
         >
           <ArrowLeft size={20} />
         </ActionIcon>
-        <ActionIcon
-          variant="subtle"
-          aria-label="bookmark button"
-          className={classes.definition_actionIcon}
-          onClick={() => isBookmarked ? removeBookmark(searchWord): addBookmark(searchWord, definitions)}
-        >
-          {isBookmarked ? (
-            <BookmarkSimple size={20} weight="fill" />
-          ) : (
-            <BookmarkSimple size={20} />
-          )}
-        </ActionIcon>
+        <Tooltip label="Bookmark" position="left">
+          <ActionIcon
+            variant="subtle"
+            aria-label="bookmark button"
+            className={classes.definition_actionIcon}
+            onClick={() =>
+              isBookmarked
+                ? removeBookmark(searchWord)
+                : addBookmark(searchWord, definitions)
+            }
+          >
+            {isBookmarked ? (
+              <BookmarkSimple size={20} weight="fill" />
+            ) : (
+              <BookmarkSimple size={20} />
+            )}
+          </ActionIcon>
+        </Tooltip>
       </Group>
 
       {/* word card */}
-      <Card shadow="sm" py="xl" px="lg" radius="sm" withBorder my="md">
+      <Card shadow="sm" padding="lg" radius="sm" withBorder my="md">
         <Group align="center" justify="space-between">
           <Text fw={700} fz={{ base: "h4", xs: "h3" }} tt="capitalize">
             {searchWord}
           </Text>
           {audio && (
-            <ActionIcon size="md" onClick={() => audio.play()}>
-              <Play size={14} weight="fill" />
-            </ActionIcon>
+            <Tooltip label="Play audio if any" position="left">
+              <ActionIcon size="md" onClick={() => audio.play()}>
+                <Play size={14} weight="fill" />
+              </ActionIcon>
+            </Tooltip>
           )}
         </Group>
       </Card>

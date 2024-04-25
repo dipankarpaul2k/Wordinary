@@ -12,10 +12,20 @@
   }
 
   &:hover {
-    background-color: var(--mantine-color-myColors-7);
+    background-color: var(--mantine-color-myColors-8);
   }
 }
 
 .active {
-  background-color: var(--mantine-color-myColors-7);
+  background-color: var(--mantine-color-myColors-8);
+}
+
+.logo_text {
+  @mixin light {
+    color: var(--mantine-color-grey-7);
+  }
+
+  @mixin dark {
+    color: var(--mantine-color-grey-1);
+  }
 }

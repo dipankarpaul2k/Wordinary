@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import mantine
-import { Box, Button, Center, Flex, TextInput } from "@mantine/core";
+import { Box, Button, Center, Flex, TextInput, Text, Stack } from "@mantine/core";
 import { useEventListener } from "@mantine/hooks";
 // import icons
 import { MagnifyingGlass } from "@phosphor-icons/react";
@@ -48,11 +48,20 @@ function Home() {
             alt="reading book image"
           />
 
+          <Stack gap={0} align="center" ta="center">
+            <Text fw={500} fz="h3">
+              Wordinary
+            </Text>
+            <Text c="dimmed">
+              Expand your vocabulary and explore the world of language.
+            </Text>
+          </Stack>
+
           <Flex
             direction={{ base: "column", xs: "row" }}
             align={{ base: "center", xs: "start" }}
             justify="center"
-            gap={{ base: "xs", xs: 0 }}
+            gap={{ base: "5px", xs: 0 }}
             w="100%"
             maw="400px"
             h="100px"

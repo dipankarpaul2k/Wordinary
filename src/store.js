@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 const store = (set) => ({
   // Initial state
@@ -7,19 +7,20 @@ const store = (set) => ({
   currentWord: "",
   definitions: null,
   bookmarks: {},
-  history: [],
+  history: {},
 
   // Actions
   setLoading: (status) => set({ loading: status }),
   setCurrentWord: (word) => set({ currentWord: word }),
   setDefiniions: (definitions) => set({ definitions }),
   // bookmarks actions
-  addBookmark: (word, definition) =>
+  addBookmark: (word, definitions) =>
     set((state) => ({
       bookmarks: {
         [word.toLowerCase()]: {
           word,
-          definition,
+          definitions,
+          date: Date.now(),
         },
         ...state.bookmarks,
       },
@@ -30,11 +31,26 @@ const store = (set) => ({
       delete newBookmarks[word.toLowerCase()];
       return { bookmarks: newBookmarks };
     }),
-  clearBookmarks: () => set({ bookmarks: [] }),
+  clearBookmarks: () => set({ bookmarks: {} }),
   // history actions
   addToHistory: (word) =>
-    set((state) => ({ history: [word, ...state.history] })),
-  clearHistory: () => set({ history: [] }),
+    set((state) => {
+      const lowercaseWord = word.toLowerCase();
+      const isAlreayExist = Object.keys(state.history).includes(lowercaseWord);
+      if (!isAlreayExist) {
+        return {
+          history: {
+            [lowercaseWord]: {
+              word,
+              date: Date.now(),
+            },
+            ...state.history,
+          },
+        };
+      }
+      return state;
+    }),
+  clearHistory: () => set({ history: {} }),
 });
 
 const useStore = create(
@@ -44,13 +60,3 @@ const useStore = create(
 );
 
 export default useStore;
-
-/*
-structure of bookmarks = {
-  word.toLowerCase(): {
-    word,
-    definitions
-  },
-  ...oldBookmarks
-}
-*/

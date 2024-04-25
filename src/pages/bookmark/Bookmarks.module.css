@@ -1,4 +1,4 @@
-.definition_actionIcon{
+.topbar_icons{
     @mixin light{
         color: var(--mantine-color-dark-7);
     }

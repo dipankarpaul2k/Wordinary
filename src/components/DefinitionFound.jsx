@@ -29,18 +29,13 @@ function DefinitionFound() {
               }
             />
             <Card key={idx} shadow="sm" p="lg" withBorder my="xs">
-              {/* show definitions */}
+              {/* show definitions, examples, synonyms and antonyms */}
               {def.definitions.map((d, idx) => (
                 <Fragment key={idx}>
                   <Text key={`definition-${idx}`} mb="5px">
                     <strong>{`${idx + 1}.  `}</strong>
                     {d.definition}
                   </Text>
-                </Fragment>
-              ))}
-              {/* show examples, synonyms and antonyms */}
-              {def.definitions.map((d, idx) => (
-                <Fragment key={idx}>
                   {d.example && (
                     <Text key={`example-${idx}`} mb="5px">
                       <strong>Example: </strong>
