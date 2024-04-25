@@ -15,7 +15,7 @@ function NoDefinitionFound({ error }) {
           style={{ textWrap: "balance" }}
         >
           <Text fz={{ base: "h2", xs: "h1" }} fw={700} mb="sm">
-            {error.title}
+            No Definitions Found
           </Text>
           <Text fz="h4" c="dimmed">
             {error.message}

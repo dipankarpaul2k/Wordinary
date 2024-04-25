@@ -18,11 +18,25 @@ import {
 
 // component
 function Definition() {
-  const { loading, definitions, setLoading, setDefiniions } = useStore();
+  const {
+    loading,
+    definitions,
+    bookmarks,
+    setLoading,
+    setDefiniions,
+    addBookmark,
+    removeBookmark,
+  } = useStore();
+
   const { searchWord } = useParams();
   const navigate = useNavigate();
 
   const [error, setError] = useState(null);
+  const [audio, setAudio] = useState(null);
+
+  const isBookmarked = Object.keys(bookmarks).includes(
+    searchWord.toLowerCase()
+  );
 
   // fetch definition from api
   useEffect(() => {
@@ -33,6 +47,12 @@ function Definition() {
       .then((response) => {
         // console.log("Response: ", response.data);
         setDefiniions(response.data);
+        if (!response.data[0].phonetics.length) return;
+        const audioUrl = response.data[0].phonetics[0].audio.replace(
+          "//ssl",
+          "https://ssl"
+        );
+        setAudio(new Audio(audioUrl));
       })
       .catch((error) => {
         if (error.response) {
@@ -58,8 +78,6 @@ function Definition() {
     return <AppLoader />;
   }
 
-  console.log("error: ", error);
-
   return (
     <Box>
       {/* topbar */}
@@ -76,8 +94,13 @@ function Definition() {
           variant="subtle"
           aria-label="bookmark button"
           className={classes.definition_actionIcon}
+          onClick={() => isBookmarked ? removeBookmark(searchWord): addBookmark(searchWord, definitions)}
         >
-          <BookmarkSimple size={20} />
+          {isBookmarked ? (
+            <BookmarkSimple size={20} weight="fill" />
+          ) : (
+            <BookmarkSimple size={20} />
+          )}
         </ActionIcon>
       </Group>
 
@@ -87,16 +110,18 @@ function Definition() {
           <Text fw={700} fz={{ base: "h4", xs: "h3" }} tt="capitalize">
             {searchWord}
           </Text>
-          <ActionIcon size="md">
-            <Play size={16} weight="fill" />
-          </ActionIcon>
+          {audio && (
+            <ActionIcon size="md" onClick={() => audio.play()}>
+              <Play size={14} weight="fill" />
+            </ActionIcon>
+          )}
         </Group>
       </Card>
 
       {/* definition cards */}
       {error ? (
         <>
-          <NoDefinitionFound error={error}/>
+          <NoDefinitionFound error={error} />
         </>
       ) : (
         <>
