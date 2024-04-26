@@ -54,7 +54,7 @@ function Bookmarks() {
     });  
 
   return (
-    <Box mih="75vh">
+    <Box>
       {/* topbar */}
       <Group align="center" justify="space-between">
         <Group gap="xs" align="center">

@@ -21,7 +21,7 @@ function RootLayout() {
           <Navbar />
         </nav>
       </Container>
-      <Container size="sm">
+      <Container size="sm" mih="75vh">
         <main>
           <Outlet />
         </main>
