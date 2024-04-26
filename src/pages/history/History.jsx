@@ -38,7 +38,7 @@ function History() {
     });
 
   return (
-    <Box>
+    <Box mih="75vh">
       {/* topbar */}
       <Group align="center" justify="space-between">
         <Group gap="xs" align="center">

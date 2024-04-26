@@ -39,7 +39,7 @@ function Home() {
   });
 
   return (
-    <Box>
+    <Box mih="75vh">
       <Center className={classes.home_container}>
         <Flex direction="column" gap="xs" align="center" w="100%" h="100%">
           <img
