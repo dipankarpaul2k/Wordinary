@@ -1,3 +1,5 @@
+import { useNavigate, Link } from "react-router-dom";
+
 import {
   ActionIcon,
   Box,
@@ -7,15 +9,49 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import useStore from "../../store";
+import { modals } from "@mantine/modals";
+
 import { ArrowLeft, Trash, FolderMinus } from "@phosphor-icons/react";
-import { useNavigate, Link } from "react-router-dom";
+
+import useStore from "../../store";
 import classes from "./Bookmarks.module.css";
 import formatDate from "../../utils/formatDate";
 
 function Bookmarks() {
   const { bookmarks, clearBookmarks, removeBookmark } = useStore();
   const navigate = useNavigate();
+
+  const clearAllBookmarksModal = () =>
+    modals.openConfirmModal({
+      title: "Clear All Bookmarks!!!",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete all your bookmarks? This action can
+          not be undone. Your bookmarks will be permanently deleted.
+        </Text>
+      ),
+      labels: { confirm: "Clear all", cancel: "No don't do it" },
+      confirmProps: { color: "red" },
+      onCancel: () => console.log("Cancel clear all bookmarks."),
+      onConfirm: () => clearBookmarks(),
+    });
+
+    const deleteBookmarkModal = (word) =>
+    modals.openConfirmModal({
+      title: "Delete Bookmark!!!",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete your bookmark? This action can
+          not be undone. Your bookmark will be permanently deleted.
+        </Text>
+      ),
+      labels: { confirm: "Delete", cancel: "No don't do it" },
+      confirmProps: { color: "red" },
+      onCancel: () => console.log("Cancel delete bookmark."),
+      onConfirm: () => removeBookmark(word),
+    });  
 
   return (
     <Box>
@@ -39,7 +75,7 @@ function Bookmarks() {
           <ActionIcon
             variant="subtle"
             aria-label="Clear all bookmarks button"
-            onClick={clearBookmarks}
+            onClick={clearAllBookmarksModal}
             className={classes.topbar_icons}
             title="Clear all bookmarks button"
           >
@@ -47,7 +83,7 @@ function Bookmarks() {
           </ActionIcon>
         </Tooltip>
       </Group>
-      
+
       {/* bookmarks body */}
       <Box>
         {Object.values(bookmarks).map(({ word, date }) => (
@@ -79,7 +115,7 @@ function Bookmarks() {
                 <ActionIcon
                   variant="subtle"
                   aria-label="remove word from bookmark button"
-                  onClick={() => removeBookmark(word)}
+                  onClick={() => deleteBookmarkModal(word)}
                   className={classes.topbar_icons}
                   title="Remove from bookmarks"
                 >

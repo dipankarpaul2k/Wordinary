@@ -43,7 +43,13 @@ function Definition() {
   const updateState = (data) => {
     setDefiniions(data);
     if (!data[0].phonetics.length) return;
-    const audioUrl = data[0].phonetics[0].audio.replace("//ssl", "https://ssl");
+    let audioUrl = null;
+    for (const phonetic of data[0].phonetics) {
+      if (phonetic.audio) {
+        audioUrl = phonetic.audio.replace("//ssl", "https://ssl");
+        break; // exit the loop once audio URL is found
+      }
+    }
     setAudio(new Audio(audioUrl));
     addToHistory(searchWord);
   };
