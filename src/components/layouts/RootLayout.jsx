@@ -19,7 +19,7 @@ function RootLayout() {
           <Navbar />
         </nav>
       </Container>
-      <Container size="sm" mih="75vh">
+      <Container size="sm" mih="70vh">
         <main>
           <Outlet />
         </main>
