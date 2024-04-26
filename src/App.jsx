@@ -2,39 +2,38 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import layout
 import { RootLayout } from "./components";
 // import pages
-import { Bookmarks, Definition, Error, History, Home } from "./pages";
+import { Bookmarks, Definition, Error, History, Home, NotFound } from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    errorElement: <Error />,
     children: [
       {
         path: "/",
         element: <Home />,
+        errorElement: <Error />,
       },
       {
         path: "search/:searchWord",
         element: <Definition />,
+        errorElement: <Error />,
       },
       {
         path: "bookmarks",
         element: <Bookmarks />,
+        errorElement: <Error />,
       },
       {
         path: "history",
         element: <History />,
+        errorElement: <Error />,
       },
     ],
   },
   {
     path: "*",
-    element: (
-      <div>
-        <h1>Not Found</h1>
-      </div>
-    ),
+    element: <NotFound />,
   },
 ]);
 
