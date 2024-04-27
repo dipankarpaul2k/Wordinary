@@ -52,7 +52,7 @@ Open your browser and visit http://localhost:5173 to use the application.
 
 ## Demo
 
-[Link to demo](https://scribehow.com/shared/Accessing_dictionaries_and_word_tools_via_a_web_portal__89AoiJJ_RjGWj0xJ29hGBw)
+<a href="https://scribehow.com/shared/Accessing_dictionaries_and_word_tools_via_a_web_portal__89AoiJJ_RjGWj0xJ29hGBw" target="_blank">Link to demo</a>
 
 
 ## Author
