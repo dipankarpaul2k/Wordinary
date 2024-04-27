@@ -54,7 +54,6 @@ Open your browser and visit http://localhost:5173 to use the application.
 
 [Link to demo](https://scribehow.com/shared/Accessing_dictionaries_and_word_tools_via_a_web_portal__89AoiJJ_RjGWj0xJ29hGBw)
 
-<iframe src="https://scribehow.com/embed/Accessing_dictionaries_and_word_tools_via_a_web_portal__89AoiJJ_RjGWj0xJ29hGBw" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
 
 ## Author
 
