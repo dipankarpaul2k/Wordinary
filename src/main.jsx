@@ -11,7 +11,7 @@ import { ModalsProvider } from "@mantine/modals";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <MantineProvider theme={theme} defaultColorScheme="light">
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <ModalsProvider>
         <App />
       </ModalsProvider>
